@@ -5,4 +5,16 @@
        - image: circleci/python:3.6.8
      steps:
        - checkout
-       - run: echo "A first hello"
+       - run: echo "Start Deploy"
+       
+  deploy:
+    machine:
+        enabled: true
+    working_directory: ~/circleci-demo-workflows
+    steps:
+      - checkout
+      - run:
+          name: Deploy Project into Server
+          command:
+            - scp -r * ssh tourin@109.75.33.121:/var/
+            - ssh david.grigoryev@109.75.33.121 "systemctl stop tourin.service && systemctl start tourin.service"
